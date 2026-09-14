@@ -1,5 +1,6 @@
 import streamlit as st
 import predict
+import PIL
 
 st.set_page_config(page_title="Vehicle Detection with YOLOv12n", page_icon="🤖")
 
@@ -14,12 +15,17 @@ uploaded_file = st.file_uploader("Upload an image", type=["jpg", "jpeg", "png"])
 
 if uploaded_file is not None:
     # Display the uploaded image
-    st.image(uploaded_file, caption="Uploaded Image", use_container_width=True)
+    st.image(uploaded_file, caption="Uploaded Image", width='stretch')
 
+    image = PIL.Image.open(uploaded_file)
     # Perform prediction and count objects
-    object_counts = predict.predict(uploaded_file)
+    object_counts, annotated_image = predict.predict(image)
+
+    # Display the annotated image
+    st.subheader("Annotated Image")
+    st.image(annotated_image, caption="Annotated Image", width='stretch')
 
     # Display the object counts
     st.subheader("Object Counts")
     for label, count in object_counts.items():
-        st.write(f"{label}: {count}")
+        st.markdown(f"* {label.upper()}: {count}")

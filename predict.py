@@ -11,7 +11,7 @@ def count_objects(list_of_labels):
     return object_counts
 
 def predict(image):
-    model = YOLO("/runs/detect/train/weights/best.pt")  # Load the YOLOv12n model
+    model = YOLO("runs/detect/train/weights/best.pt")  # Load the YOLOv12n model
     results = model(image, verbose=False)[0]
     detections = sv.Detections.from_ultralytics(results).with_nms()
 
@@ -26,4 +26,4 @@ def predict(image):
 
     predicted_labels = [results.names[class_id] for class_id in detections.class_id]
 
-    return count_objects(predicted_labels)
+    return count_objects(predicted_labels), annotated_image
