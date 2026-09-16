@@ -24,10 +24,11 @@ if uploaded_file is not None:
     # Perform prediction and count objects
     st.subheader("Model: Yolov12n")
 
-    object_counts, annotated_image = predict.predict(image, model_path="best(2).pt")
+    # predict image 
+    object_counts, annotated_image = predict.predict(image, model_path="yolov12n.pt")
     st.image(annotated_image, caption="Annotated Image")
     st.subheader("Object Counts")
 
+    # show object counts
     for label, count in object_counts.items():
-
         st.markdown(f"* {label.upper()}: {count}")
